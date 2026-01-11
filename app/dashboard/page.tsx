@@ -1,6 +1,6 @@
-export const dynamic = "force-dynamic";
-
 "use client";
+
+export const dynamic = "force-dynamic";
 
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -16,43 +16,31 @@ export default function DashboardPage() {
     return <p className="p-6">Loading...</p>;
   }
 
-  /* ================= STUDENTS BY DEPARTMENT ================= */
   const studentDeptMap: Record<string, number> = {};
-
   students.forEach((s) => {
     studentDeptMap[s.department] =
       (studentDeptMap[s.department] || 0) + 1;
   });
 
   const studentsChartData = Object.entries(studentDeptMap).map(
-    ([department, count]) => ({
-      department,
-      count,
-    })
+    ([department, count]) => ({ department, count })
   );
 
-  /* ================= EVENTS BY DEPARTMENT ================= */
   const eventDeptMap: Record<string, number> = {};
-
   events.forEach((e) => {
-    const dept = e.department;
-    if (!dept) return;
-
-    eventDeptMap[dept] = (eventDeptMap[dept] || 0) + 1;
+    if (!e.department) return;
+    eventDeptMap[e.department] =
+      (eventDeptMap[e.department] || 0) + 1;
   });
 
   const eventsChartData = Object.entries(eventDeptMap).map(
-    ([department, count]) => ({
-      department,
-      count,
-    })
+    ([department, count]) => ({ department, count })
   );
 
   return (
     <div className="p-6 space-y-8">
       <h1 className="text-2xl font-bold">📊 Dashboard</h1>
 
-      {/* ================= DASHBOARD CARDS ================= */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="rounded-xl p-6 text-white bg-gradient-to-r from-indigo-500 to-purple-500">
           <p>Total Students</p>
@@ -65,9 +53,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* ================= CHARTS ================= */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Students by Department */}
         <div className="bg-white p-6 rounded-xl shadow">
           <h2 className="text-lg font-semibold mb-4">
             Students by Department
@@ -75,12 +61,10 @@ export default function DashboardPage() {
           <DepartmentChart data={studentsChartData} />
         </div>
 
-        {/* Events Count Chart */}
         <div className="bg-white p-6 rounded-xl shadow">
           <EventsChart />
         </div>
 
-        {/* Department-wise Events Chart */}
         <div className="bg-white p-6 rounded-xl shadow md:col-span-2">
           <h2 className="text-lg font-semibold mb-4">
             Events by Department

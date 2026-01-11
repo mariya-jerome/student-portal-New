@@ -3,52 +3,49 @@
 import { useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 
 export default function StudentEditDialog({ student }: any) {
-  const updateStudent = useMutation(api.students.updateStudent);
+  const updateStudent = useMutation(api.students.update);
 
   const [name, setName] = useState(student.name);
   const [email, setEmail] = useState(student.email);
   const [department, setDepartment] = useState(student.department);
 
+  const handleUpdate = async () => {
+    await updateStudent({
+      id: student._id,
+      name,
+      email,
+      department,
+    });
+  };
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button size="sm">Edit</Button>
-      </DialogTrigger>
+    <div className="space-y-3">
+      <input
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        className="border rounded px-2 py-1 w-full"
+      />
 
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Edit Student</DialogTitle>
-        </DialogHeader>
+      <input
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="border rounded px-2 py-1 w-full"
+      />
 
-        <Input value={name} onChange={e => setName(e.target.value)} />
-        <Input value={email} onChange={e => setEmail(e.target.value)} />
-        <Input value={department} onChange={e => setDepartment(e.target.value)} />
+      <input
+        value={department}
+        onChange={(e) => setDepartment(e.target.value)}
+        className="border rounded px-2 py-1 w-full"
+      />
 
-        <Button
-          onClick={() =>
-            updateStudent({
-              id: student._id,
-              name,
-              email,
-              department,
-            })
-          }
-          className="bg-green-600"
-        >
-          Update
-        </Button>
-      </DialogContent>
-    </Dialog>
+      <button
+        onClick={handleUpdate}
+        className="bg-indigo-600 text-white px-4 py-2 rounded"
+      >
+        Update
+      </button>
+    </div>
   );
 }

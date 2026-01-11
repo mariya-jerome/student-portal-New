@@ -10,7 +10,9 @@ export default function DashboardPage() {
   const students = useQuery(api.students.getAll);
   const events = useQuery(api.events.getAll);
 
-  if (!students || !events) return <p>Loading...</p>;
+  if (!students || !events) {
+    return <p className="p-6">Loading...</p>;
+  }
 
   /* ================= STUDENTS BY DEPARTMENT ================= */
   const studentDeptMap: Record<string, number> = {};
@@ -31,10 +33,10 @@ export default function DashboardPage() {
   const eventDeptMap: Record<string, number> = {};
 
   events.forEach((e) => {
-    if (e.department) {
-      eventDeptMap[e.department] =
-        (eventDeptMap[e.department] || 0) + 1;
-    }
+    const dept = e.department;
+    if (!dept) return;
+
+    eventDeptMap[dept] = (eventDeptMap[dept] || 0) + 1;
   });
 
   const eventsChartData = Object.entries(eventDeptMap).map(

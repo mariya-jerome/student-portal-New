@@ -1,8 +1,5 @@
-"use client";
-
-import "./globals.css";
-import { ConvexProvider } from "convex/react";
-import { convex } from "@/lib/convex";
+import ConvexClientProvider from "@/components/ConvexClientProvider";
+export const dynamic = "force-dynamic";
 
 export default function RootLayout({
   children,
@@ -11,11 +8,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <ConvexProvider client={convex}>
-          {children}
-        </ConvexProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

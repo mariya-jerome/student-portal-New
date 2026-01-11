@@ -1,4 +1,6 @@
+import "./globals.css";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
+
 export const dynamic = "force-dynamic";
 
 export default function RootLayout({
@@ -8,7 +10,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <ConvexClientProvider>
+          {children}
+        </ConvexClientProvider>
+      </body>
     </html>
   );
 }
